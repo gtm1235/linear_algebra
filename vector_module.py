@@ -25,9 +25,22 @@ class Vector(object):
            add_vector.append(self.coordinates[i] + v.coordinates[i])
         return tuple(add_vector)
 
+    def __mul__(self, v):
+        add_vector = []
+        for i in range(self.dimension):
+            add_vector.append(self.coordinates[i] * v.coordinates[i])
+        return tuple(add_vector)
+
+    def __sub__(self, v):
+        add_vector = []
+        for i in range(self.dimension):
+            add_vector.append(self.coordinates[i] - v.coordinates[i])
+        return tuple(add_vector)
 
 my_vector = Vector([1,2,3])
 print(my_vector)
 my_vector2 = Vector([1,2,3])
 print(my_vector2)
 print(my_vector + my_vector2)
+print(my_vector - my_vector2)
+print(my_vector * my_vector2)
