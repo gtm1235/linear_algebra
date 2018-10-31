@@ -75,7 +75,7 @@ class Vector(object):
 
     def are_ortho_par(self, v):
         if (self.magnitude() and v.magnitude()) > Decimal(0):
-            if self.inner_angle(v)[0] == 0:
+            if self.inner_angle(v)[1] == 0.0 or self.inner_angle(v)[1] == 180.0:
                 print("The are parellel")
             elif self.dot_product(v) == 0:
                 print("They are orthogonal")
@@ -84,16 +84,9 @@ class Vector(object):
         else:
             return(print("they are both orthogonal and parallel"))
 
-my_vector = Vector([7.887, 4.138])
-my_vector2 = Vector([-8.802, 6.776])
-my_vector3 = Vector([-5.955, -4.904, -1.874])
-my_vector4 = Vector([-4.496, -8.755, 7.103])
-my_vector5 = Vector([3.183, -7.627])
-my_vector6 = Vector([-2.668, 5.319])
-my_vector7 = Vector([0,5])
-my_vector8 = Vector([5, 0])
-#print(my_vector.dot_product(my_vector2))
-#print(my_vector3.dot_product(my_vector4))
-#print(my_vector5.inner_angle(my_vector6))
+
+my_vector7 = Vector([-7.579, -7.88])
+my_vector8 = Vector([22.737, 23.64])
+print(my_vector7.dot_product(my_vector8))
 print(my_vector7.inner_angle(my_vector8))
 print(my_vector7.are_ortho_par(my_vector8))
