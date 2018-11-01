@@ -7,7 +7,7 @@ class Vector(object):
         try:
             if not coordinates:
                 raise ValueError
-            self.coordinates = tuple(coordinates)
+            self.coordinates = tuple([coordinates])
             self.dimension = len(coordinates)
 
         except ValueError:
@@ -62,10 +62,12 @@ class Vector(object):
         temp_dot = self.dot_product(w)
         mag_self = self.magnitude()
         mag_w = w.magnitude()
-        ang_radians = np.arccos(temp_dot / (mag_self * mag_w))
-        ang_degrees = 180 * (ang_radians / pi)
-        return ang_radians , ang_degrees
-
+        try:
+            ang_radians = np.arccos(temp_dot / (mag_self * mag_w))
+            ang_degrees = 180 * (ang_radians / pi)
+            return ang_radians , ang_degrees
+        except ZeroDivisionError:
+            print("Cannot compute angle with zero vector")
 
 my_vector = Vector([7.887, 4.138])
 my_vector2 = Vector([-8.802, 6.776])
@@ -73,9 +75,9 @@ my_vector3 = Vector([-5.955, -4.904, -1.874])
 my_vector4 = Vector([-4.496, -8.755, 7.103])
 my_vector5 = Vector([3.183, -7.627])
 my_vector6 = Vector([-2.668, 5.319])
-my_vector7 = Vector([7.35, 0.221, 5.188])
+my_vector7 = Vector([0,0,1])
 my_vector8 = Vector([2.751, 8.259, 3.985])
-print(my_vector.dot_product(my_vector2))
-print(my_vector3.dot_product(my_vector4))
-print(my_vector5.inner_angle(my_vector6))
+#print(my_vector.dot_product(my_vector2))
+#print(my_vector3.dot_product(my_vector4))
+#print(my_vector5.inner_angle(my_vector6))
 print(my_vector7.inner_angle(my_vector8))

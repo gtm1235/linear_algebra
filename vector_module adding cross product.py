@@ -1,8 +1,9 @@
 from math import sqrt, pi, acos
-#import numpy as np
+# import numpy as np
 from decimal import Decimal, getcontext
 
 getcontext().prec = 6
+
 
 class Vector(object):
     def __init__(self, coordinates):
@@ -69,7 +70,7 @@ class Vector(object):
         try:
             ang_radians = acos(temp_dot / (mag_self * mag_w))
             ang_degrees = 180 * (ang_radians / pi)
-            return ang_radians , ang_degrees
+            return ang_radians, ang_degrees
         except:
             print("Cannot compute angle with zero vector")
 
@@ -82,20 +83,36 @@ class Vector(object):
             else:
                 print("They are neither parallel or orthogonal")
         else:
-            return(print("they are both orthogonal and parallel"))
+            return (print("they are both orthogonal and parallel"))
 
     def parallelv(self, b):
-        b_norm = b.normalize()
-        scalar = self.dot_product(b_norm)
-        return (b_norm * scalar)
+        try:
+            b_norm = b.normalize()
+            scalar = self.dot_product(b_norm)
+            return (b_norm * scalar)
+        except:
+            print("Cannot compute with zero vector")
 
     def orthogonalv(self, b):
-        parallel_temp = self.parallelv(b)
-        return (self - parallel_temp)
+        try:
+            parallel_temp = self.parallelv(b)
+            return (self - parallel_temp)
+        except:
+            print("Cannot compute with zero vector")
+
+    def cross_product(self, b):
+        new_dimension = []
+        new_dimension.append(Decimal(self.coordinates[1] * b.coordinates[2]) - (b.coordinates[1] * self.coordinates[2]))
+        new_dimension.append(Decimal(-((self.coordinates[0] * b.coordinates[2]) -
+                                       (b.coordinates[0] * self.coordinates[2]))))
+        new_dimension.append(Decimal(self.coordinates[0] * b.coordinates[1]) - (b.coordinates[0] * self.coordinates[1]))
+        return Vector(new_dimension)
 
 
-my_vector7 = Vector([-7.579, -7.88])
-my_vector8 = Vector([22.737, 23.64])
-print(my_vector7.dot_product(my_vector8))
-print(my_vector7.inner_angle(my_vector8))
-print(my_vector7.are_ortho_par(my_vector8))
+
+my_vector5 = Vector([1.5, 9.547, 3.691])
+my_vector6 = Vector([-6.007, 0.124, 5.772])
+
+cross = (my_vector5.cross_product(my_vector6))
+print(cross.magnitude())
+print(Decimal(.5)*cross.magnitude())

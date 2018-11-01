@@ -85,19 +85,34 @@ class Vector(object):
             return(print("they are both orthogonal and parallel"))
 
     def parallelv(self, b):
-        b_norm = b.normalize()
-        scalar = self.dot_product(b_norm)
-        return (b_norm * scalar)
+        try:
+            b_norm = b.normalize()
+            scalar = self.dot_product(b_norm)
+            return (b_norm * scalar)
+        except:
+            print("Cannot compute with zero vector")
 
     def orthogonalv(self, b):
-        parallel_temp = self.parallelv(b)
-        return (self - parallel_temp)
+        try:
+            parallel_temp = self.parallelv(b)
+            return (self - parallel_temp)
+        except:
+            print("Cannot compute with zero vector")
+
+    def cross_product(self, b):
+        new_dimension = []
+        new_dimension[0] = ((self[1] * b[2]) - (b[1] * self[2]))
+        new_dimension[1] = -((self[0] * b[2]) - (b[0] * self[2]))
+        new_dimension[2] = ((self[0] * b[1]) - (b[0] * self[1]))
+        area_parallel = new_dimension.magnitude()
+        area_triangle = Decimal(.5) * area_parallel
+        return Vector(new_dimension), area_parallel, area_triangle
 
 
 my_vector1 = Vector([3.039, 1.879])
 my_vector2 = Vector([0.825, 2.036])
 my_vector3 = Vector([-9.88, -3.264, -8.159])
-my_vector4 = Vector([-2.155, -9.353, -9.473])
+my_vector4 = Vector([0,0,0])
 my_vector5 = Vector([3.009, -6.172, 3.692, -2.51])
 my_vector6 = Vector([6.404, -9.144, 2.759, 8.718])
 #print(my_vector7.dot_product(my_vector8))
