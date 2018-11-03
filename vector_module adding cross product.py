@@ -1,7 +1,6 @@
 from math import sqrt, pi, acos
 # import numpy as np
 from decimal import Decimal, getcontext
-
 getcontext().prec = 6
 
 
@@ -109,10 +108,9 @@ class Vector(object):
         return Vector(new_dimension)
 
 
-
 my_vector5 = Vector([1.5, 9.547, 3.691])
 my_vector6 = Vector([-6.007, 0.124, 5.772])
 
 cross = (my_vector5.cross_product(my_vector6))
 print(cross.magnitude())
-print(Decimal(.5)*cross.magnitude())
+print(Decimal(.5) * cross.magnitude())
