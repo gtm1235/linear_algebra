@@ -2,7 +2,7 @@ from decimal import Decimal, getcontext
 
 from vector import Vector
 
-getcontext().prec = 30
+getcontext().prec = 6
 
 
 class Line(object):
@@ -27,11 +27,11 @@ class Line(object):
     def set_basepoint(self):
         try:
             n = self.normal_vector
-            c = self.constant_term
+            c = Decimal(self.constant_term)
             basepoint_coords = ['0']*self.dimension
 
             initial_index = Line.first_nonzero_index(n)
-            initial_coefficient = n[initial_index]
+            initial_coefficient = Decimal(n[initial_index])
 
             basepoint_coords[initial_index] = c/initial_coefficient
             self.basepoint = Vector(basepoint_coords)
@@ -96,7 +96,24 @@ class Line(object):
                 return k
         raise Exception(Line.NO_NONZERO_ELTS_FOUND_MSG)
 
+    def parallel_lines(self, line1):
+        self_parallel_vector = [self.normal_vector[1], -(self.normal_vector[0])]
+        line1_parallel_vector = [line1.normal_vector[1], -(line1.normal_vector[0])]
+        vector1 = Vector(self_parallel_vector)
+        vector2 = Vector(line1_parallel_vector)
+        vector1.are_parallel(vector2)
+        if (vector1.inner_angle(vector2)) == 0 or (vector1.inner_angle(vector2)) == 180:
+            return print("they are the same line")
+        else:
+            return print("They are parallel but not the same line")
 
 class MyDecimal(Decimal):
     def is_near_zero(self, eps=1e-10):
         return abs(self) < eps
+
+
+
+
+line1 = Line([4.046, 2.836], 1.21)
+line2 = Line([10.115, 7.09], 3.025)
+print(line1.parallel_lines(line2))
