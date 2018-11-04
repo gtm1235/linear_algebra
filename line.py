@@ -103,20 +103,23 @@ class Line(object):
         if (vector1.inner_angle(vector2)[0]) == 0.0 or (vector1.inner_angle(vector2)[0]) == 180.0:
 
             if self.basepoint == line1.basepoint:
-                return ("they are the same line")
+                return "they are the same line"
             else:
-                return print("They are parallel but not the same line")
+                return "They are parallel but not the same line"
         else:
-            print("They are not parallel")
+            return "They are not parallel"
 
     def intersection(self, line1):
-        y_value = (((-(self.constant_term * line1.normal_vector[0])) + (self.normal_vector[0] * line1.constant_term)) /
-                   ((self.normal_vector[0] * line1.normal_vector[1]) - (
+        try:
+            y_value = (((-(self.constant_term * line1.normal_vector[0])) + (self.normal_vector[0] * line1.constant_term))
+                       /((self.normal_vector[0] * line1.normal_vector[1]) - (
                             self.normal_vector[1] * line1.normal_vector[0])))
-        x_value = (((self.constant_term * line1.normal_vector[1]) - (self.normal_vector[1] * line1.constant_term)) /
+            x_value = (((self.constant_term * line1.normal_vector[1]) - (self.normal_vector[1] * line1.constant_term)) /
                    ((self.normal_vector[0] * line1.normal_vector[1]) - (
                                self.normal_vector[1] * line1.normal_vector[0])))
-        return [x_value, y_value]
+            return [x_value, y_value]
+        except:
+            return 'there is no intersection'
 
 
 class MyDecimal(Decimal):
@@ -127,9 +130,7 @@ class MyDecimal(Decimal):
 
 line1 = Line([1.182, 5.562], 6.744)
 line2 = Line([1.773, 8.343], 9.525)
-print(line1.normal_vector)
-print(line2.normal_vector)
-print(type(line1.normal_vector[1]))
+
 print(line1.parallel_lines(line2))
 print(line1.intersection(line2))
 
