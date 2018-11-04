@@ -78,11 +78,25 @@ class Vector(object):
             if self.inner_angle(v)[1] == 0.0 or self.inner_angle(v)[1] == 180.0:
                 print("The are parellel")
             elif self.dot_product(v) == 0:
-                print("They are orthogonal")
+                return print("They are orthogonal")
             else:
-                print("They are neither parallel or orthogonal")
+                return print("They are neither parallel or orthogonal")
         else:
             return (print("they are both orthogonal and parallel"))
+
+    def are_parallel(self, v):
+        if (self.magnitude() and v.magnitude()) > Decimal(0):
+            if self.inner_angle(v)[1] == 0.0 or self.inner_angle(v)[1] == 180.0:
+                return print("The are parellel")
+            else:
+                return print("They are not parallel")
+
+    def are_orthogonal(self, v):
+        if (self.magnitude() and v.magnitude()) > Decimal(0):
+            if self.dot_product(v) == 0:
+                return print("They are orthogonal")
+            else:
+                return print("they are not orthogonal")
 
     def parallelv(self, b):
         try:
