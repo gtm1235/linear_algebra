@@ -6,15 +6,15 @@ getcontext().prec = 6
 
 
 class Line(object):
-
     NO_NONZERO_ELTS_FOUND_MSG = 'No nonzero elements found'
 
     def __init__(self, normal_vector=None, constant_term=None):
         self.dimension = 2
 
         if not normal_vector:
-            all_zeros = ['0']*self.dimension
-            normal_vector = Vector(all_zeros)
+            all_zeros = ['0'] * self.dimension
+            normal_vector = (all_zeros)
+        normal_vector = [Decimal(x) for x in normal_vector]
         self.normal_vector = normal_vector
 
         if not constant_term:
@@ -23,17 +23,16 @@ class Line(object):
 
         self.set_basepoint()
 
-
     def set_basepoint(self):
         try:
             n = self.normal_vector
             c = Decimal(self.constant_term)
-            basepoint_coords = ['0']*self.dimension
+            basepoint_coords = ['0'] * self.dimension
 
             initial_index = Line.first_nonzero_index(n)
             initial_coefficient = Decimal(n[initial_index])
 
-            basepoint_coords[initial_index] = c/initial_coefficient
+            basepoint_coords[initial_index] = c / initial_coefficient
             self.basepoint = Vector(basepoint_coords)
 
         except Exception as e:
@@ -41,7 +40,6 @@ class Line(object):
                 self.basepoint = None
             else:
                 raise e
-
 
     def __str__(self):
 
@@ -71,7 +69,7 @@ class Line(object):
 
         try:
             initial_index = Line.first_nonzero_index(n)
-            terms = [write_coefficient(n[i], is_initial_term=(i==initial_index)) + 'x_{}'.format(i+1)
+            terms = [write_coefficient(n[i], is_initial_term=(i == initial_index)) + 'x_{}'.format(i + 1)
                      for i in range(self.dimension) if round(n[i], num_decimal_places) != 0]
             output = ' '.join(terms)
 
@@ -88,7 +86,6 @@ class Line(object):
 
         return output
 
-
     @staticmethod
     def first_nonzero_index(iterable):
         for k, item in enumerate(iterable):
@@ -102,10 +99,25 @@ class Line(object):
         vector1 = Vector(self_parallel_vector)
         vector2 = Vector(line1_parallel_vector)
         vector1.are_parallel(vector2)
-        if (vector1.inner_angle(vector2)) == 0 or (vector1.inner_angle(vector2)) == 180:
-            return print("they are the same line")
+
+        if (vector1.inner_angle(vector2)[0]) == 0.0 or (vector1.inner_angle(vector2)[0]) == 180.0:
+
+            if self.basepoint == line1.basepoint:
+                return ("they are the same line")
+            else:
+                return print("They are parallel but not the same line")
         else:
-            return print("They are parallel but not the same line")
+            print("They are not parallel")
+
+    def intersection(self, line1):
+        y_value = (((-(self.constant_term * line1.normal_vector[0])) + (self.normal_vector[0] * line1.constant_term)) /
+                   ((self.normal_vector[0] * line1.normal_vector[1]) - (
+                            self.normal_vector[1] * line1.normal_vector[0])))
+        x_value = (((self.constant_term * line1.normal_vector[1]) - (self.normal_vector[1] * line1.constant_term)) /
+                   ((self.normal_vector[0] * line1.normal_vector[1]) - (
+                               self.normal_vector[1] * line1.normal_vector[0])))
+        return [x_value, y_value]
+
 
 class MyDecimal(Decimal):
     def is_near_zero(self, eps=1e-10):
@@ -113,7 +125,11 @@ class MyDecimal(Decimal):
 
 
 
-
-line1 = Line([4.046, 2.836], 1.21)
-line2 = Line([10.115, 7.09], 3.025)
+line1 = Line([1.182, 5.562], 6.744)
+line2 = Line([1.773, 8.343], 9.525)
+print(line1.normal_vector)
+print(line2.normal_vector)
+print(type(line1.normal_vector[1]))
 print(line1.parallel_lines(line2))
+print(line1.intersection(line2))
+
